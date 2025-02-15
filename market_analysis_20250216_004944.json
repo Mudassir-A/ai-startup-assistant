@@ -1,0 +1,329 @@
+{
+  "timestamp": "2025-02-16T00:49:44.181914",
+  "business_idea": "AI-powered personal fitness coach mobile app",
+  "market_analysis": {
+    "competitors": [
+      {
+        "name": "Top Fitness Tech Companies To Watch in 2025",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.615,
+          "pos": 0.385,
+          "compound": 0.9231
+        },
+        "business_category": {
+          "Mobile App": 0.23783959448337555,
+          "Consumer": 0.22858397662639618,
+          "Small Business": 0.1366657018661499,
+          "Enterprise": 0.10944423824548721,
+          "B2C": 0.08682357519865036,
+          "B2B": 0.08598125725984573,
+          "SaaS": 0.07824689149856567,
+          "E-commerce": 0.036414735019207
+        },
+        "summary": "Here are some of the top tech-advanced fitness apps that are making waves this year, driving further innovation and improvement in health and wellness services.",
+        "website": "https://3dlook.ai/content-hub/top-fitness-tech-companies/",
+        "analysis_timestamp": "2025-02-16T00:47:02.635521",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.9231
+        }
+      },
+      {
+        "name": "79 Top Fitness Apps Companies in United States",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.668,
+          "pos": 0.332,
+          "compound": 0.886
+        },
+        "business_category": {
+          "Consumer": 0.35090503096580505,
+          "Enterprise": 0.13942430913448334,
+          "Small Business": 0.13448840379714966,
+          "Mobile App": 0.10593231767416,
+          "E-commerce": 0.08114036172628403,
+          "SaaS": 0.06792744249105453,
+          "B2B": 0.06040911376476288,
+          "B2C": 0.05977299064397812
+        },
+        "summary": "Detailed info and reviews on 79 top Fitness Apps companies and startups in United States in 2025. Get the latest updates on their products, ...",
+        "website": "https://www.f6s.com/companies/fitness-apps/united-states/co",
+        "analysis_timestamp": "2025-02-16T00:47:18.213753",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.886
+        }
+      },
+      {
+        "name": "Find the Top 10 Fitness App Development Companies in 2025",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.855,
+          "pos": 0.145,
+          "compound": 0.4404
+        },
+        "business_category": {
+          "Small Business": 0.33113574981689453,
+          "Consumer": 0.21243222057819366,
+          "Mobile App": 0.117068812251091,
+          "Enterprise": 0.11411645263433456,
+          "SaaS": 0.077027328312397,
+          "B2C": 0.07425150275230408,
+          "B2B": 0.054327238351106644,
+          "E-commerce": 0.01964067481458187
+        },
+        "summary": "1-Leed Software Development \u00b7 2-Nimble AppGenie \u00b7 3-Code Brew Labs \u00b7 4-Mighty Pro \u00b7 5-Trainerize \u00b7 6-Orangesoft \u00b7 7-Passion.io \u00b7 8-Zfort Group.",
+        "website": "https://leeddev.io/fitness-app-development-companies/",
+        "analysis_timestamp": "2025-02-16T00:47:36.094297",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.4404
+        }
+      },
+      {
+        "name": "Top 6 Fitness App Development Companies in the USA",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.776,
+          "pos": 0.224,
+          "compound": 0.7003
+        },
+        "business_category": {
+          "Small Business": 0.23824936151504517,
+          "Consumer": 0.2321956306695938,
+          "SaaS": 0.13075263798236847,
+          "Mobile App": 0.12659567594528198,
+          "Enterprise": 0.10042466223239899,
+          "B2C": 0.0782216489315033,
+          "B2B": 0.06047035753726959,
+          "E-commerce": 0.03308999165892601
+        },
+        "summary": "Top 6 Fitness App Development Companies in the USA \u00b7 1. Wegile \u00b7 2. Interexy \u00b7 3. Orangesoft \u00b7 4. Apptunix \u00b7 5. Code Brew Labs \u00b7 6. Zfort Group.",
+        "website": "https://www.newpelican.com/articles/top-six-fitness-app-develoment-companies-in-the-usa/",
+        "analysis_timestamp": "2025-02-16T00:47:53.486058",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.7003
+        }
+      },
+      {
+        "name": "AI in Fitness | The Future of Health and Exercise",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.793,
+          "pos": 0.207,
+          "compound": 0.7425
+        },
+        "business_category": {
+          "Consumer": 0.2672906219959259,
+          "Enterprise": 0.20656290650367737,
+          "Mobile App": 0.1345759630203247,
+          "B2B": 0.1161481961607933,
+          "Small Business": 0.10664936155080795,
+          "B2C": 0.07757128775119781,
+          "SaaS": 0.06419214606285095,
+          "E-commerce": 0.02700945734977722
+        },
+        "summary": "AI is reshaping the fitness industry, making businesses more efficient and user-focused. From personalized workout plans and virtual coaching to predictive ...",
+        "website": "https://kodytechnolab.com/blog/ai-in-fitness-industry/",
+        "analysis_timestamp": "2025-02-16T00:48:07.436582",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.7425
+        }
+      },
+      {
+        "name": "15 AI Tools for Personal Trainers: Boost Your Fitness ...",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.622,
+          "pos": 0.378,
+          "compound": 0.93
+        },
+        "business_category": {
+          "Consumer": 0.3403761088848114,
+          "Small Business": 0.1659795641899109,
+          "Enterprise": 0.1471368819475174,
+          "B2B": 0.09376411139965057,
+          "Mobile App": 0.08972048759460449,
+          "B2C": 0.06403684616088867,
+          "E-commerce": 0.052579086273908615,
+          "SaaS": 0.04640689119696617
+        },
+        "summary": "Uncover 15 powerful AI tools that can transform your personal training business. Learn how cutting-edge technology can boost efficiency, client engagement, ...",
+        "website": "https://www.fitbudd.com/post/15-ai-tools-for-personal-trainers-boost-your-fitness-business-with-cutting-edge-technology",
+        "analysis_timestamp": "2025-02-16T00:48:22.346491",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.93
+        }
+      },
+      {
+        "name": "AI Personal Trainer Market | Size, Share, Growth | 2024",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.799,
+          "pos": 0.201,
+          "compound": 0.7783
+        },
+        "business_category": {
+          "Consumer": 0.2590087950229645,
+          "Enterprise": 0.1619170904159546,
+          "Small Business": 0.1513834148645401,
+          "SaaS": 0.10963844507932663,
+          "B2C": 0.09370745718479156,
+          "B2B": 0.09312417358160019,
+          "Mobile App": 0.08225059509277344,
+          "E-commerce": 0.04897007718682289
+        },
+        "summary": "The Global AI Personal Trainer Market size was valued at USD 13.3 billion in 2023 and is projected to reach a market size of USD 89 billion by the end of 2030.",
+        "website": "https://virtuemarketresearch.com/report/ai-personal-trainer-market",
+        "analysis_timestamp": "2025-02-16T00:48:38.011094",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.7783
+        }
+      },
+      {
+        "name": "Artificial Intelligence (AI) companies in Fitness & Wellness ...",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.558,
+          "pos": 0.442,
+          "compound": 0.9517
+        },
+        "business_category": {
+          "Enterprise": 0.2370573878288269,
+          "Consumer": 0.23297081887722015,
+          "Mobile App": 0.11925680935382843,
+          "Small Business": 0.10512526333332062,
+          "SaaS": 0.09718932956457138,
+          "B2C": 0.09197855740785599,
+          "B2B": 0.0785505473613739,
+          "E-commerce": 0.0378713496029377
+        },
+        "summary": "There are 26 Artificial Intelligence (AI) companies in Fitness & Wellness Tech in New York City, United States which include Kaia Health, Vi, ...",
+        "website": "https://tracxn.com/d/artificial-intelligence/ai-startups-in-fitness-wellness-tech-in-new-york-city-in-united-states/__eXvcT_XmIqMXrmcp45OAakVY_TvOwS4BFA-ZLtZ3ju0/companies",
+        "analysis_timestamp": "2025-02-16T00:48:54.040529",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.9517
+        }
+      },
+      {
+        "name": "Top AI Trends Shaping The Fitness Industry in 2025",
+        "sentiment": {
+          "neg": 0.0,
+          "neu": 0.724,
+          "pos": 0.276,
+          "compound": 0.7845
+        },
+        "business_category": {
+          "Consumer": 0.2460145801305771,
+          "Enterprise": 0.198248028755188,
+          "Small Business": 0.13975009322166443,
+          "Mobile App": 0.13445597887039185,
+          "B2C": 0.08155997842550278,
+          "SaaS": 0.07856476306915283,
+          "B2B": 0.07714274525642395,
+          "E-commerce": 0.04426383227109909
+        },
+        "summary": "Explore top trends of AI in the fitness industry, including how AI shapes workouts, personalizing fitness plans, and the future of health.",
+        "website": "https://3dlook.ai/content-hub/ai-in-fitness-industry/",
+        "analysis_timestamp": "2025-02-16T00:49:07.961590",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.7845
+        }
+      },
+      {
+        "name": "AI fitness app Zing Coach raises $10m in Series A funding to ...",
+        "sentiment": {
+          "neg": 0.068,
+          "neu": 0.788,
+          "pos": 0.144,
+          "compound": 0.2023
+        },
+        "business_category": {
+          "Consumer": 0.29633966088294983,
+          "Small Business": 0.14802761375904083,
+          "B2B": 0.14030198752880096,
+          "Mobile App": 0.13509632647037506,
+          "SaaS": 0.11914924532175064,
+          "B2C": 0.10743892937898636,
+          "Enterprise": 0.04564787447452545,
+          "E-commerce": 0.007998436689376831
+        },
+        "summary": "Zing Coach, a fitness app backed by health tech company Palta, which just raised $10 million in equity and debt financing in a Series A funding round.",
+        "website": "https://athletechnews.com/zing-coach-raises-10m-for-feature-packed-ai-fitness-app/",
+        "analysis_timestamp": "2025-02-16T00:49:23.944856",
+        "data_source": "search_snippet",
+        "market_position": {
+          "strength": "strong",
+          "confidence_score": 0.2023
+        }
+      }
+    ],
+    "market_size": {
+      "estimated_size": "Placeholder for market size estimation",
+      "growth_rate": "Placeholder for growth rate",
+      "confidence_level": "medium"
+    },
+    "trends": [
+      {
+        "trend": "Placeholder trend 1",
+        "impact": "high",
+        "description": "Trend description"
+      }
+    ],
+    "target_segments": [
+      {
+        "segment": "Early Adopters",
+        "characteristics": "Tech-savvy individuals interested in fitness innovation",
+        "potential": "High"
+      },
+      {
+        "segment": "Fitness Enthusiasts",
+        "characteristics": "Regular gym-goers looking for personalized guidance",
+        "potential": "Medium"
+      },
+      {
+        "segment": "Busy Professionals",
+        "characteristics": "Time-constrained individuals seeking efficient workout solutions",
+        "potential": "High"
+      }
+    ],
+    "recommendations": [
+      "Consider: Strong online presence like Top Fitness Tech Companies To Watch in 2025, Strong online presence like 79 Top Fitness Apps Companies in United States, Strong online presence like Find the Top 10 Fitness App Development Companies in 2025, Strong online presence like Top 6 Fitness App Development Companies in the USA, Strong online presence like AI in Fitness | The Future of Health and Exercise, Strong online presence like 15 AI Tools for Personal Trainers: Boost Your Fitness ..., Strong online presence like AI Personal Trainer Market | Size, Share, Growth | 2024, Strong online presence like Artificial Intelligence (AI) companies in Fitness & Wellness ..., Strong online presence like Top AI Trends Shaping The Fitness Industry in 2025, Strong online presence like AI fitness app Zing Coach raises $10m in Series A funding to ..."
+    ],
+    "viability_analysis": {
+      "overall_viability_score": 57.87,
+      "confidence_level": "medium",
+      "factor_scores": {
+        "market_demand": 0.8,
+        "competition_level": 0,
+        "innovation_potential": 0.576966135809198,
+        "scalability": 0.6666666666666666,
+        "revenue_potential": 0.85
+      },
+      "reasoning": [
+        "Strong market demand potential",
+        "Concerning competition level indicators",
+        "Strong revenue potential potential",
+        "Favorable market trends: 1 high-impact trends identified",
+        "High competition from established players"
+      ],
+      "recommendation": "Significant modifications needed before proceeding"
+    }
+  }
+}
