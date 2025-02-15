@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from typing import List, Dict, Any
 from transformers import pipeline
-from serpapi import GoogleSearch
+from googleapiclient.discovery import build
 import asyncio
 import aiohttp
 from datetime import datetime
@@ -10,12 +10,35 @@ import logging
 import json
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
+import os
+from bs4 import BeautifulSoup
+import re
+from dotenv import load_dotenv
 
 
 class MentorFinder:
-    def __init__(self, serpapi_key: str):
-        """Initialize the MentorFinder with necessary API keys and models."""
-        self.api_key = serpapi_key
+    def __init__(self):
+        """Initialize the MentorFinder with necessary models and API keys."""
+        # Load environment variables
+        load_dotenv()  # This will load .env file if it exists
+
+        # Get API keys from environment
+        self.google_api_key = os.getenv("GOOGLE_API_KEY")
+        self.google_cse_id = os.getenv("GOOGLE_CSE_ID")
+
+        # Validate API keys
+        if not self.google_api_key:
+            raise ValueError(
+                "GOOGLE_API_KEY not found in environment variables. "
+                "Please add it to your .env file or environment variables."
+            )
+        if not self.google_cse_id:
+            raise ValueError(
+                "GOOGLE_CSE_ID not found in environment variables. "
+                "Please add it to your .env file or environment variables."
+            )
+
+        # Initialize models
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
         self.sentiment_analyzer = pipeline("sentiment-analysis")
         self.logger = self._setup_logger()
@@ -33,16 +56,14 @@ class MentorFinder:
     async def find_potential_mentors(
         self, field: str, location: str = None, min_experience: int = 5
     ) -> List[Dict[str, Any]]:
-        """
-        Find potential mentors based on field and criteria.
-        """
+        """Find potential mentors based on field and criteria."""
         try:
             # Create search queries
             queries = [
-                f"{field} entrepreneur founder",
-                f"{field} startup CEO",
-                f"{field} business mentor",
-                f"{field} industry expert",
+                f"{field} entrepreneur founder linkedin",
+                f"{field} startup CEO linkedin profile",
+                f"{field} business mentor linkedin",
+                f"{field} industry expert linkedin",
             ]
 
             if location:
@@ -70,27 +91,47 @@ class MentorFinder:
     async def _search_mentors(
         self, session: aiohttp.ClientSession, query: str
     ) -> List[Dict[str, Any]]:
-        """
-        Search for potential mentors using Google Search API.
-        """
+        """Search for potential mentors using Google Custom Search API."""
         try:
-            params = {
-                "engine": "google",
-                "q": query,
-                "api_key": self.api_key,
-                "num": 10,
-            }
+            service = build("customsearch", "v1", developerKey=self.google_api_key)
 
-            search = GoogleSearch(params)
-            results = search.get_dict()
+            self.logger.info(f"Searching for: {query}")
 
-            mentors = []
-            for result in results.get("organic_results", []):
-                mentor_info = await self._extract_mentor_info(session, result)
-                if mentor_info:
-                    mentors.append(mentor_info)
+            try:
+                # Execute the search
+                result = (
+                    service.cse().list(q=query, cx=self.google_cse_id, num=10).execute()
+                )
 
-            return mentors
+                mentors = []
+                for item in result.get("items", []):
+                    self.logger.info(f"Processing result: {item.get('title', '')}")
+                    mentor_info = await self._extract_mentor_info(session, item)
+                    if mentor_info:
+                        mentors.append(mentor_info)
+                        self.logger.info(f"Added mentor: {mentor_info['name']}")
+
+                return mentors
+
+            except Exception as api_error:
+                if "403" in str(api_error):
+                    self.logger.error(
+                        "Google Custom Search API is not properly enabled."
+                    )
+                    print("\nTo fix this error:")
+                    print("1. Go to https://console.cloud.google.com/")
+                    print("2. Select your project")
+                    print("3. Go to 'APIs & Services' > 'Library'")
+                    print("4. Search for 'Custom Search API'")
+                    print("5. Click 'Enable'")
+                    print("6. Go to 'APIs & Services' > 'Credentials'")
+                    print("7. Create or use an existing API key")
+                    print("8. Go to https://programmablesearchengine.google.com/")
+                    print("9. Create a new search engine")
+                    print("10. Get your Search Engine ID (cx)")
+                    print("\nThen update your environment variables with the new keys.")
+                    return []
+                raise
 
         except Exception as e:
             self.logger.error(f"Error in mentor search: {str(e)}")
@@ -99,13 +140,15 @@ class MentorFinder:
     async def _extract_mentor_info(
         self, session: aiohttp.ClientSession, result: Dict
     ) -> Dict[str, Any]:
-        """
-        Extract mentor information from search result.
-        """
+        """Extract mentor information from search result."""
         try:
             title = result.get("title", "")
             snippet = result.get("snippet", "")
             link = result.get("link", "")
+
+            # Skip if not a LinkedIn profile
+            if "linkedin.com/in/" not in link.lower():
+                return None
 
             # Skip if not likely to be about a person
             if not self._is_likely_person(title, snippet):
@@ -116,17 +159,24 @@ class MentorFinder:
             if not name:
                 return None
 
-            # Analyze the content
+            # Try to get more info from LinkedIn profile
+            profile_data = await self._scrape_linkedin_preview(session, link)
+
+            # Combine all information
             profile_info = {
                 "name": name,
-                "title": title,
-                "summary": snippet,
+                "title": profile_data.get("title", title),
+                "summary": profile_data.get("summary", snippet),
                 "profile_url": link,
-                "expertise": self._extract_expertise(snippet),
-                "experience_years": self._extract_experience(snippet),
-                "contact_info": self._extract_contact_info(snippet),
+                "expertise": self._extract_expertise(
+                    profile_data.get("summary", snippet)
+                ),
+                "experience_years": profile_data.get(
+                    "experience_years", self._extract_experience(snippet)
+                ),
+                "contact_info": {"linkedin": link},
                 "sentiment_score": self._analyze_sentiment(snippet),
-                "source": "search_result",
+                "source": "linkedin",
                 "last_updated": datetime.now().isoformat(),
             }
 
@@ -135,6 +185,53 @@ class MentorFinder:
         except Exception as e:
             self.logger.error(f"Error extracting mentor info: {str(e)}")
             return None
+
+    async def _scrape_linkedin_preview(
+        self, session: aiohttp.ClientSession, profile_url: str
+    ) -> Dict[str, Any]:
+        """Safely scrape public LinkedIn profile preview."""
+        try:
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+            }
+
+            async with session.get(profile_url, headers=headers) as response:
+                if response.status != 200:
+                    return {}
+
+                html = await response.text()
+                soup = BeautifulSoup(html, "html.parser")
+
+                # Extract available information
+                data = {"title": "", "summary": "", "experience_years": 0}
+
+                # Try to find title/headline
+                title_elem = soup.find("title")
+                if title_elem:
+                    data["title"] = title_elem.text.split(" | ")[0]
+
+                # Try to find summary/about
+                summary_elem = soup.find("section", {"id": "about"})
+                if summary_elem:
+                    data["summary"] = summary_elem.text.strip()
+
+                # Try to find experience
+                exp_section = soup.find("section", {"id": "experience"})
+                if exp_section:
+                    # Calculate total years of experience
+                    years = set()
+                    year_pattern = r"\b20\d{2}\b"
+                    found_years = re.findall(year_pattern, exp_section.text)
+                    if found_years:
+                        years.update(map(int, found_years))
+                        if len(years) >= 2:
+                            data["experience_years"] = max(years) - min(years)
+
+                return data
+
+        except Exception as e:
+            self.logger.error(f"Error scraping LinkedIn preview: {str(e)}")
+            return {}
 
     def _is_likely_person(self, title: str, snippet: str) -> bool:
         """
@@ -243,33 +340,6 @@ class MentorFinder:
         except Exception:
             return 0
 
-    def _extract_contact_info(self, text: str) -> Dict[str, str]:
-        """
-        Extract contact information from text.
-        """
-        contact_info = {}
-
-        # Extract email
-        email_indicators = ["email", "contact", "@"]
-        for indicator in email_indicators:
-            if indicator in text.lower():
-                # Simple email pattern matching
-                words = text.split()
-                for word in words:
-                    if "@" in word and "." in word:
-                        contact_info["email"] = word.strip(".,;()")
-                        break
-
-        # Extract LinkedIn profile
-        if "linkedin.com" in text.lower():
-            start_idx = text.lower().find("linkedin.com")
-            end_idx = text.find(" ", start_idx)
-            if end_idx == -1:
-                end_idx = len(text)
-            contact_info["linkedin"] = text[start_idx:end_idx].strip(".,;()")
-
-        return contact_info
-
     def _analyze_sentiment(self, text: str) -> float:
         """
         Analyze sentiment of the text description.
@@ -348,30 +418,70 @@ class MentorFinder:
 
 
 async def main():
-    # Initialize with your SerpAPI key
-    finder = MentorFinder("your_serpapi_key_here")
+    try:
+        # Initialize MentorFinder
+        finder = MentorFinder()
 
-    # Example usage
-    field = input("Enter your field of interest: ")
-    location = input("Enter preferred location (or press Enter to skip): ")
-    min_experience = int(input("Enter minimum years of experience required: "))
+        # Get search parameters
+        print("\nMentor Finder - Find industry experts and potential mentors")
+        print("--------------------------------------------------------")
+        field = input(
+            "\nEnter your field of interest (e.g., AI, blockchain, biotech): "
+        )
+        location = input("Enter preferred location (or press Enter to skip): ")
 
-    print("\nSearching for mentors...")
-    mentors = await finder.find_potential_mentors(
-        field=field,
-        location=location if location else None,
-        min_experience=min_experience,
-    )
+        while True:
+            try:
+                min_experience = int(
+                    input("Enter minimum years of experience required (1-40): ")
+                )
+                if 1 <= min_experience <= 40:
+                    break
+                print("Please enter a number between 1 and 40")
+            except ValueError:
+                print("Please enter a valid number")
 
-    print("\nTop Potential Mentors:")
-    for i, mentor in enumerate(mentors, 1):
-        print(f"\n{i}. {mentor['name']}")
-        print(f"   Expertise: {', '.join(mentor['expertise'])}")
-        print(f"   Experience: {mentor.get('experience_years', 'N/A')} years")
-        print(f"   Profile: {mentor.get('profile_url', 'N/A')}")
-        if mentor.get("contact_info"):
-            print(f"   Contact: {mentor['contact_info']}")
-        print(f"   Relevance Score: {mentor.get('relevance_score', 0):.2f}")
+        print("\nSearching for mentors...")
+        mentors = await finder.find_potential_mentors(
+            field=field,
+            location=location if location else None,
+            min_experience=min_experience,
+        )
+
+        if not mentors:
+            print("\nNo mentors found. This could be due to:")
+            print("1. API not properly configured (see instructions above)")
+            print("2. No results matching your criteria")
+            print("3. Network connectivity issues")
+            print("\nPlease verify API setup or try different search criteria.")
+            return
+
+        print("\nTop Potential Mentors:")
+        for i, mentor in enumerate(mentors, 1):
+            print(f"\n{i}. {mentor['name']}")
+            print(f"   Title: {mentor['title']}")
+            print(f"   Expertise: {', '.join(mentor['expertise'])}")
+            print(f"   Experience: {mentor.get('experience_years', 'N/A')} years")
+            print(f"   LinkedIn: {mentor['profile_url']}")
+            print(f"   Relevance Score: {mentor.get('relevance_score', 0):.2f}")
+
+    except ValueError as ve:
+        print(f"\nConfiguration Error: {str(ve)}")
+        print("\nPlease follow these steps to set up your API:")
+        print("1. Go to https://console.cloud.google.com/")
+        print("2. Create a new project or select existing one")
+        print("3. Enable Custom Search API")
+        print("4. Create credentials (API key)")
+        print("5. Go to https://programmablesearchengine.google.com/")
+        print("6. Create a new search engine")
+        print("7. Get your Search Engine ID")
+        print("\nThen set your environment variables:")
+        print("export GOOGLE_API_KEY=your_api_key_here")
+        print("export GOOGLE_CSE_ID=your_search_engine_id_here")
+
+    except Exception as e:
+        print(f"\nAn error occurred: {str(e)}")
+        print("Please verify your API credentials and internet connection.")
 
 
 if __name__ == "__main__":
